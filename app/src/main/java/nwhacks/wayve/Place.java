@@ -9,15 +9,15 @@ public class Place {
     private String name;
     private float longitude, latitude;
     private ArrayList<Description> description;      //make it a class
-    private ArrayList<Integer> listofrating;
-    private double rating;
+    private ArrayList<Float> listofrating = new ArrayList<>();
+    private float rating;
 
     //Constructor
-    public Place(String name, float longitude, float latitude, int rating){
+    public Place(String name){
         this.name = name;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.rating = rating;
+        this.rating = 0;
     }
 
     //Accessor
@@ -37,7 +37,7 @@ public class Place {
         return description;
     }
 
-    public double getRating(){
+    public float getRating(){
         calculateRating();
         return rating;
     }
@@ -48,7 +48,7 @@ public class Place {
         description.add(desc);
     }
     //adds the newRating to the new
-    public void addRating(int newRating){
+    public void addRating(float newRating){
         listofrating.add(newRating);
         getRating();
     }
@@ -57,7 +57,7 @@ public class Place {
     public void calculateRating(){
 
         int size = listofrating.size();
-        double sum = 0;
+        float sum = 0;
 
         for(int i = 0; i < size; i++){
             sum += listofrating.get(i);
