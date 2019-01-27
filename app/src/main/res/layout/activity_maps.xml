@@ -13,7 +13,7 @@ android:layout_height="match_parent">
         android:background="@color/colorPrimary">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="86dp"
             android:layout_marginStart="8dp"
@@ -34,13 +34,13 @@ android:layout_height="match_parent">
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/result"
             app:layout_constraintVertical_bias="1.0"
             tools:context=".MapsActivity"
             tools:layout_editor_absoluteX="0dp" />
 
         <ImageButton
-            android:id="@+id/search"
+            android:id="@+id/dismiss"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginEnd="16dp"

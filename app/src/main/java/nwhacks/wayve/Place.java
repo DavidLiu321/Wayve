@@ -1,7 +1,4 @@
-
 package nwhacks.wayve;
-
-
 
 import java.lang.reflect.Array;
 
@@ -23,9 +20,7 @@ public class Place {
         this.rating = rating;
     }
 
-
-    //Accessors
-
+    //Accessor
     public String getname(){
         return name;
     }
@@ -41,14 +36,13 @@ public class Place {
     public ArrayList<Description> getDescription(){
         return description;
     }
-    //Updates the new Rating and returns the int
+
     public double getRating(){
         calculateRating();
         return rating;
     }
 
-    //Modifiers
-    //Creates a description and add it to the list of Descriptions
+    //Modifier
     public void addDescription(String title, String newDescription){
         Description desc = new Description(title, newDescription);
         description.add(desc);

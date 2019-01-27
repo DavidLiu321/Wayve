@@ -4,17 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import android.nfc.Tag;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.location.*;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,14 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Circle;
 
 import java.util.ArrayList;
 
@@ -42,10 +30,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     private SupportMapFragment supportMapFragment;
-
     private ArrayList<Marker> markersArray = new ArrayList<>();
 
     private LocationManager locationManager;
+
+    static TextView res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +51,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        ImageButton search = findViewById(R.id.search);
+        ImageButton search = findViewById(R.id.dismiss);
+
+        res = findViewById(R.id.result);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +131,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         } else {
                             str = "No Localities Nearby";
                         }
-                        mMap.clear();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        //mMap.clear();
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        markersArray.add(marker);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -182,8 +174,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng vancouver = new LatLng(49.2827, -123.1207);
-        mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
+        markersArray.add(marker);
+
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -194,8 +188,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 markerOptions.position(latLng);
 
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude); // sets title  by clicking marker
-
                 mMap.clear();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
@@ -203,6 +195,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker marker = mMap.addMarker(markerOptions);
                 markersArray.add(marker);
 
+                Rating dialog = new Rating();
+                dialog.show(getSupportFragmentManager(), "");
 
                 for (int i = 0; i < markersArray.size()-1; i++) {
 
@@ -219,7 +213,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                System.out.println("testings" + marker.getTitle());
+                System.out.println("testings");
+
+                Result dialog = new Result();
+                dialog.show(getSupportFragmentManager(), "");
 
                 marker.showInfoWindow();
 
@@ -233,12 +230,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     protected Marker createMarker(double latitude, double longitude) {
 
         return mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latitude, longitude))
-                        .anchor(0.5f, 0.5f));
+                        .position(new LatLng(latitude, longitude)));
 //                .title(title)
 //                .snippet(snippet)
 //                .icon(BitmapDescriptorFactory.fromResource(iconResID)));
