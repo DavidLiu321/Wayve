@@ -127,7 +127,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             str = "No Localities Nearby";
                         }
                         //mMap.clear();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        markersArray.add(marker);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -168,8 +169,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng vancouver = new LatLng(49.2827, -123.1207);
-        mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
+        markersArray.add(marker);
+
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
