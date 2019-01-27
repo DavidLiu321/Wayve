@@ -1,4 +1,4 @@
-package nwhacks.wayv;
+package nwhacks.wayve;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.location.*;
-import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
