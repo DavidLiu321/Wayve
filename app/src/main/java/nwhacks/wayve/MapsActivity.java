@@ -1,7 +1,12 @@
 package nwhacks.wayve;
 
+import android.nfc.Tag;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,15 +25,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LocationBox dialog = new LocationBox();
+        dialog.show(getSupportFragmentManager(), "");
+
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        ImageButton search = findViewById(R.id.search);
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationBox dialog = new LocationBox();
+                dialog.show(getSupportFragmentManager(), "");
+            }
+        });
     }
-
 
     /**
      * Manipulates the map once available.
@@ -70,6 +86,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         });
     }
-
-
 }
