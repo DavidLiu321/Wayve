@@ -1,4 +1,4 @@
-package nwhacks.wayve;
+package nwhacks.wayv;
 
 import android.Manifest;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.location.*;
 import android.support.v4.content.ContextCompat;
 
@@ -23,17 +25,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    private SupportMapFragment supportMapFragment;
+
     private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        LocationBox dialog = new LocationBox();
+        dialog.show(getSupportFragmentManager(), "");
+
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        ImageButton search = findViewById(R.id.search);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationBox dialog = new LocationBox();
+                dialog.show(getSupportFragmentManager(), "");
+            }
+        });
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -144,9 +163,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
+        LatLng vancouver = new LatLng(49.2827, -123.1207);
+        mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
 
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10.2f));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                markerOptions.position(latLng);
+
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude); // sets title  by clicking marker
+
+                mMap.clear();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
+                mMap.addMarker(markerOptions);
+            }
+
+
+
+        });
+
+
     }
 }

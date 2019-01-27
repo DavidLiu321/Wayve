@@ -1,4 +1,4 @@
-package nwhacks.wayve;
+package nwhacks.wayv;
 
 import org.junit.Test;
 
