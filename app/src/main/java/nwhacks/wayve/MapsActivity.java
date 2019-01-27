@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.location.*;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,11 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
@@ -37,6 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private LocationManager locationManager;
 
+    static TextView res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,7 +51,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        ImageButton search = findViewById(R.id.search);
+        ImageButton search = findViewById(R.id.dismiss);
+
+        res = findViewById(R.id.result);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +174,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng vancouver = new LatLng(49.2827, -123.1207);
-        Marker marker = mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
         markersArray.add(marker);
 
@@ -187,8 +188,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 markerOptions.position(latLng);
 
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude); // sets title  by clicking marker
-
                 mMap.clear();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
@@ -196,6 +195,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker marker = mMap.addMarker(markerOptions);
                 markersArray.add(marker);
 
+                Rating dialog = new Rating();
+                dialog.show(getSupportFragmentManager(), "");
 
                 for (int i = 0; i < markersArray.size()-1; i++) {
 
@@ -212,7 +213,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                System.out.println("testings" + marker.getTitle());
+                System.out.println("testings");
+
+                Result dialog = new Result();
+                dialog.show(getSupportFragmentManager(), "");
 
                 marker.showInfoWindow();
 
