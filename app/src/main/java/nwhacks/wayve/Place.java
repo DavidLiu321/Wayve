@@ -1,4 +1,8 @@
+
 package nwhacks.wayve;
+
+
+import java.lang.reflect.Array;
 
 import java.util.*;
 
@@ -18,7 +22,9 @@ public class Place {
         this.rating = rating;
     }
 
+
     //Accessors
+
     public String getname(){
         return name;
     }
@@ -54,6 +60,7 @@ public class Place {
 
     //finds the average of the ratings in the listofrating
     public void calculateRating(){
+
         int size = listofrating.size();
         double sum = 0;
 
@@ -64,6 +71,7 @@ public class Place {
 
         this.rating = sum;
     }
+
     //sets the longitude and the latitude for the place
     public void setLongandLad(float longitude, float latitude){
         this.longitude = longitude;
@@ -99,5 +107,7 @@ public class Place {
         topthree.add(third);
 
         return topthree;
+
+
     }
 }

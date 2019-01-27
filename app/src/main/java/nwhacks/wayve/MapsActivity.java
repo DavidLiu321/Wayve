@@ -4,11 +4,17 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
+import android.nfc.Tag;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.location.*;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,6 +22,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Circle;
+
+import java.util.ArrayList;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     private SupportMapFragment supportMapFragment;
+
+    private ArrayList<Marker> markersArray = new ArrayList<>();
 
     private LocationManager locationManager;
 
@@ -181,6 +200,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
                 mMap.addMarker(markerOptions);
+                Marker marker = mMap.addMarker(markerOptions);
+                markersArray.add(marker);
+
+
+                for (int i = 0; i < markersArray.size()-1; i++) {
+
+                    createMarker(markersArray.get(i).getPosition().latitude,
+                    markersArray.get(i).getPosition().longitude);
+
+                    System.out.println("!!!" + markersArray.get(i).getPosition());
+                }
+            }
+
+
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                System.out.println("testings" + marker.getTitle());
+
+                marker.showInfoWindow();
+
+                return true;
             }
 
 
@@ -189,4 +232,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+
+    protected Marker createMarker(double latitude, double longitude) {
+
+        return mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latitude, longitude))
+                        .anchor(0.5f, 0.5f));
+//                .title(title)
+//                .snippet(snippet)
+//                .icon(BitmapDescriptorFactory.fromResource(iconResID)));
+    }
+
+
 }
