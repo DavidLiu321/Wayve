@@ -1,8 +1,13 @@
 package nwhacks.wayv;
 
+import android.nfc.Tag;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -82,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         });
-
-
     }
+
+
 }

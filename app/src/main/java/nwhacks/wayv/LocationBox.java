@@ -1,4 +1,4 @@
-package nwhacks.wayv;
+package nwhacks.wayve;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
