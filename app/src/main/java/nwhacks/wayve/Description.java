@@ -15,16 +15,28 @@ public class Description {
         total = 0;
     }
 
+    //Accessors
+    public String getTitle(){
+        return Title;
+    }
     public String getContent(){
         return content;
     }
 
+    public int getAgree(){
+        return Agree;
+    }
+
+    public int getDisagree(){
+        return Disagree;
+    }
+
     public int getTotal(){
         this.total = Agree - Disagree;
-
         return total;
     }
-    //modifiers
+
+    //Modifiers
     public void addupVotes(){
         Agree++;
     }
