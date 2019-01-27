@@ -1,4 +1,4 @@
-package nwhacks.wayv;
+package nwhacks.wayve;
 
 public class Description {
     private String Title;
