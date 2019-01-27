@@ -13,15 +13,24 @@ import android.widget.ImageButton;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Circle;
+
+import java.util.ArrayList;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     private SupportMapFragment supportMapFragment;
+    private ArrayList<Marker> markersArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +45,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         ImageButton search = findViewById(R.id.search);
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
 
     /**
      * Manipulates the map once available.
@@ -81,12 +88,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.clear();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
-                mMap.addMarker(markerOptions);
+                Marker marker = mMap.addMarker(markerOptions);
+                markersArray.add(marker);
+
+
+                for (int i = 0; i < markersArray.size(); i++) {
+
+                    createMarker(markersArray.get(i).getPosition().latitude,
+                    markersArray.get(i).getPosition().longitude);
+
+                    System.out.println("!!!" + markersArray.get(i).getPosition());
+                }
+            }
+
+
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                System.out.println("testings" + marker.getTitle());
+
+                marker.showInfoWindow();
+
+                return true;
             }
 
 
 
         });
+
+
+    }
+
+    protected Marker createMarker(double latitude, double longitude) {
+
+        return mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(latitude, longitude))
+                        .anchor(0.5f, 0.5f));
+//                .title(title)
+//                .snippet(snippet)
+//                .icon(BitmapDescriptorFactory.fromResource(iconResID)));
     }
 
 
