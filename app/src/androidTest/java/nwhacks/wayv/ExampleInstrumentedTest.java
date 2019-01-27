@@ -1,4 +1,4 @@
-package nwhacks.wayve;
+package nwhacks.wayv;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
