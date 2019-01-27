@@ -2,10 +2,13 @@ package nwhacks.wayve;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -14,14 +17,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    private SupportMapFragment supportMapFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LocationBox dialog = new LocationBox();
+        dialog.show(getSupportFragmentManager(), "");
+
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        ImageButton search = findViewById(R.id.search);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationBox dialog = new LocationBox();
+                dialog.show(getSupportFragmentManager(), "");
+            }
+        });
     }
 
 
@@ -39,8 +59,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng vancouver = new LatLng(49.2827, -123.1207);
+        mMap.addMarker(new MarkerOptions().position(vancouver).title("Marker for Vancouver"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(vancouver));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                markerOptions.position(latLng);
+
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude); // sets title  by clicking marker
+
+                mMap.clear();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); // move map to where you click cursor
+                mMap.addMarker(markerOptions);
+            }
+
+
+
+        });
+
+
     }
 }
