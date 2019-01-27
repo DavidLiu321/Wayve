@@ -136,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         } else {
                             str = "No Localities Nearby";
                         }
-                        mMap.clear();
+                        //mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -231,8 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected Marker createMarker(double latitude, double longitude) {
 
         return mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latitude, longitude))
-                        .anchor(0.5f, 0.5f));
+                        .position(new LatLng(latitude, longitude)));
 //                .title(title)
 //                .snippet(snippet)
 //                .icon(BitmapDescriptorFactory.fromResource(iconResID)));
