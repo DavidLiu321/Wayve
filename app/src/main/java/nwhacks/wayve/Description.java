@@ -41,13 +41,6 @@ public class Description {
         return total;
     }
 
-    //Modifiers
-
-    public int getTotal(){
-        this.total = Agree - Disagree;
-
-        return total;
-    }
     //modifiers
     public void addupVotes(){
         Agree++;
